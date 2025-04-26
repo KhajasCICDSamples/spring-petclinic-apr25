@@ -17,3 +17,8 @@ jobs:
               with:
                 name: spc-artifact
                 path: target/*.jar
+            - name: Publish Test Results
+              uses: EnricoMi/publish-unit-test-result-action@v2
+              with:
+                files: |
+                    **/surefire-reports/*.xml
