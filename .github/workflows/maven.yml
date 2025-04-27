@@ -11,6 +11,13 @@ jobs:
         runs-on: "ubuntu-24.04"
         steps:
             - uses: actions/checkout@v4
+            - name: Cache local Maven repository
+              uses: actions/cache@v4
+              with:
+                path: ~/.m2/repository
+                key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+                restore-keys: |
+                  ${{ runner.os }}-maven
             - name: run maven package
               run: mvn package
             - uses: actions/upload-artifact@v4
@@ -25,8 +32,6 @@ jobs:
             - name: SonarCloud Scan
               uses:  SonarSource/sonarcloud-github-action@v5.0.0
               with:
-                organization: khajascicdsamples
-                projectKey: spring-petclinic-apr25
                 projectBaseDir: .
               env:
                 SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
