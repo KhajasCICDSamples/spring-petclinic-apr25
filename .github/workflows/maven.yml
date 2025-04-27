@@ -22,3 +22,10 @@ jobs:
               with:
                 files: |
                     **/surefire-reports/*.xml
+            - name: SonarCloud Scan
+              uses: SonarSource/sonarqube-scan-action@v5.1.0
+              with:
+                organization: khajascicdsamples
+                projectKey: spring-petclinic-apr25
+              env:
+                SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
