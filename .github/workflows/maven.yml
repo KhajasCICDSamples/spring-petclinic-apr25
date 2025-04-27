@@ -10,6 +10,10 @@ on:
 jobs:
     build:
         runs-on: "ubuntu-24.04"
+        permissions:
+          actions: read
+          contents: read
+          security-events: write
         steps:
             - uses: actions/checkout@v4
             - name: Cache local Maven repository
@@ -19,8 +23,14 @@ jobs:
                 key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
                 restore-keys: |
                   ${{ runner.os }}-maven
+            - name: Initialize Codeql
+              uses: github/codeql-action/init@v3
+              with:
+                languages: java
             - name: run maven package
               run: mvn package
+            - name: Perform CodeQL Analysis
+              uses: github/codeql-action/analyze@v3
             
             
             - uses: actions/upload-artifact@v4
@@ -32,9 +42,3 @@ jobs:
               with:
                 files: |
                     **/surefire-reports/*.xml
-            - name: SonarCloud Scan
-              uses:  SonarSource/sonarcloud-github-action@v5.0.0
-              with:
-                projectBaseDir: .
-              env:
-                SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
