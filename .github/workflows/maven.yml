@@ -31,9 +31,7 @@ jobs:
               with:
                 files: |
                     **/surefire-reports/*.xml
-            - name: SonarCloud Scan
-              uses:  SonarSource/sonarcloud-github-action@v5.0.0
-              with:
-                projectBaseDir: .
+            - name: Build and analyze
               env:
                 SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+              run: mvn -B verifyqq org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=dummyrepos_mytrails-java
