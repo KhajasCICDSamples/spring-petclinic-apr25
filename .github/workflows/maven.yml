@@ -34,4 +34,4 @@ jobs:
             - name: Build and analyze
               env:
                 SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-              run: mvn -B verifyqq org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=dummyrepos_mytrails-java
+              run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=dummyrepos_mytrails-java
